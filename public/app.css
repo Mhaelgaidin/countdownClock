@@ -34,3 +34,16 @@ button {
 .hidden {
   display: none;
 }
+
+#eventList {
+  width: 33%;
+  margin-top: 10px;
+}
+
+#eventList > div {
+  text-align: center;
+  margin-top: 5px;
+  border: 1px solid black;
+  padding: 3px;
+  border-radius: 3px;
+}

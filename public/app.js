@@ -10,7 +10,8 @@ document.querySelector('#newEvent').addEventListener('submit', (e) => {
   if (validDate(newEvent.date)) {
     document.querySelector('#warning').classList.add('hidden')
     events.push(newEvent)
-    console.log(events)
+    e.target.reset()
+    showEvents()
   } else {
     document.querySelector('#warning').classList.remove('hidden')
   }
@@ -27,3 +28,51 @@ function validDate(newDate) {
     return true
   }
 }
+
+function showEvents() {
+  let eventList = document.querySelector('#eventList')
+  eventList.innerHTML = ''
+  events.forEach((event, index) => {
+    let countdown = timetoEvent(event.date)
+    let element = document.createElement('div')
+    if (!countdown.complete) {
+      element.innerHTML = `<h3>${event.name}</h3><p>${countdown.days} Days ${countdown.hours} Hours ${countdown.mins} Mins ${countdown.secs} Secs</p> <button onclick="remove(${index})">Remove</button>`
+    } else {
+      element.innerHTML = `<h3>${event.name}</h3><p>Event Reached!</p> <button onclick="remove(${index})">Remove</button>`
+    }
+
+    eventList.appendChild(element)
+  })
+}
+
+function remove(index) {
+  events.splice(index, 1)
+  showEvents()
+}
+
+function timetoEvent(date) {
+  let countdown = {
+    days: 0,
+    hours: 0,
+    mins: 0,
+    secs: 0,
+    complete: false,
+  }
+  let currentDate = new Date()
+  let difference = date - currentDate
+  if (difference <= 0) {
+    countdown.complete = true
+    return countdown
+  }
+  countdown.days = Math.floor(difference / (1000 * 60 * 60 * 24))
+  difference = difference - countdown.days * (1000 * 60 * 60 * 24)
+  countdown.hours = Math.floor(difference / (1000 * 60 * 60))
+  difference = difference - countdown.hours * (1000 * 60 * 60)
+  countdown.mins = Math.floor(difference / (1000 * 60))
+  difference = difference - countdown.mins * (1000 * 60)
+  countdown.secs = Math.floor(difference / 1000)
+
+  return countdown
+}
+
+window.setInterval(showEvents, [1000])

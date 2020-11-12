@@ -51,13 +51,21 @@ button {
 }
 
 button {
-  background-color: #1c2129;
   padding: 1px 6px;
   border: none;
+  color: white;
+  text-transform: uppercase;
+}
+
+form button {
+  background-color: seagreen;
+}
+
+#eventList button {
+  background-color: darkred;
 }
 
 button:hover {
-  color: white;
   font-weight: bold;
   background-color: chartreuse;
   box-shadow: 0 0 10px chartreuse, 0 0 25px chartreuse;

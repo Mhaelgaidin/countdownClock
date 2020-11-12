@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Countdown Clock</title>
     <link rel="stylesheet" href="app.css" />
+    <script
+      src="https://kit.fontawesome.com/df2d66550b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <form action="" id="newEvent">
+    <form action="" id="newEvent" autocomplete="off">
       <h2>New Event</h2>
       <div>
         <label for="eventName"> Name:</label>
@@ -28,7 +37,7 @@
         <input type="time" name="eventTime" id="eventTime" />
       </div>
       <p class="hidden" id="warning">Please Select a Date/Time in the future</p>
-      <button>Add</button>
+      <button><i class="fas fa-plus"></i></button>
     </form>
     <div id="eventList"></div>
     <script src="app.js"></script>

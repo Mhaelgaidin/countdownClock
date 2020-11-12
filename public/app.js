@@ -43,10 +43,35 @@ function showEvents() {
     events.forEach((event, index) => {
       let countdown = timetoEvent(event.date)
       let element = document.createElement('div')
+      if (countdown.days < 10) {
+        countdown.days = '0' + countdown.days
+      }
+      if (countdown.hours < 10) {
+        countdown.hours = '0' + countdown.hours
+      }
+      if (countdown.mins < 10) {
+        countdown.mins = '0' + countdown.mins
+      }
+      if (countdown.secs < 10) {
+        countdown.secs = '0' + countdown.secs
+      }
       if (!countdown.complete) {
-        element.innerHTML = `<h3>${event.name}</h3><p>${countdown.days} Days ${countdown.hours} Hours ${countdown.mins} Mins ${countdown.secs} Secs</p> <button onclick="remove(${index})">Remove</button>`
+        element.innerHTML = `
+        <h3>${event.name}</h3>
+        <div class="countdown">
+        <div><h4>Days</h4><p>${countdown.days}</p></div>
+        <div><h4>Hours</h4><p>${countdown.hours}</p></div>
+        <div><h4>Mins</h4><p>${countdown.mins}</p></div>
+        <div><h4>Secs</h4><p>${countdown.secs}</p></div>
+        </div> 
+        <button onclick="remove(${index})"><i class="fas fa-trash"></i></button>
+        `
       } else {
-        element.innerHTML = `<h3>${event.name}</h3><p>Event Reached!</p> <button onclick="remove(${index})">Remove</button>`
+        element.innerHTML = `
+        <h3>${event.name}</h3>
+        <p>Event Reached!</p> 
+        <button onclick="remove(${index})"><i class="fas fa-trash"></i></button>
+        `
       }
 
       eventList.appendChild(element)

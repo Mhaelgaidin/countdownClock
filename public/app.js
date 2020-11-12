@@ -1,4 +1,10 @@
 const events = []
+if (localStorage.getItem('savedEvents')) {
+  let savedEvents = JSON.parse(localStorage.getItem('savedEvents'))
+  savedEvents.forEach((event) => {
+    events.push({ name: event.name, date: new Date(event.date) })
+  })
+}
 
 document.querySelector('#newEvent').addEventListener('submit', (e) => {
   e.preventDefault()
@@ -10,6 +16,7 @@ document.querySelector('#newEvent').addEventListener('submit', (e) => {
   if (validDate(newEvent.date)) {
     document.querySelector('#warning').classList.add('hidden')
     events.push(newEvent)
+    localStorage.setItem('savedEvents', JSON.stringify(events))
     e.target.reset()
     showEvents()
   } else {
@@ -32,21 +39,24 @@ function validDate(newDate) {
 function showEvents() {
   let eventList = document.querySelector('#eventList')
   eventList.innerHTML = ''
-  events.forEach((event, index) => {
-    let countdown = timetoEvent(event.date)
-    let element = document.createElement('div')
-    if (!countdown.complete) {
-      element.innerHTML = `<h3>${event.name}</h3><p>${countdown.days} Days ${countdown.hours} Hours ${countdown.mins} Mins ${countdown.secs} Secs</p> <button onclick="remove(${index})">Remove</button>`
-    } else {
-      element.innerHTML = `<h3>${event.name}</h3><p>Event Reached!</p> <button onclick="remove(${index})">Remove</button>`
-    }
+  if (events.length > 0) {
+    events.forEach((event, index) => {
+      let countdown = timetoEvent(event.date)
+      let element = document.createElement('div')
+      if (!countdown.complete) {
+        element.innerHTML = `<h3>${event.name}</h3><p>${countdown.days} Days ${countdown.hours} Hours ${countdown.mins} Mins ${countdown.secs} Secs</p> <button onclick="remove(${index})">Remove</button>`
+      } else {
+        element.innerHTML = `<h3>${event.name}</h3><p>Event Reached!</p> <button onclick="remove(${index})">Remove</button>`
+      }
 
-    eventList.appendChild(element)
-  })
+      eventList.appendChild(element)
+    })
+  }
 }
 
 function remove(index) {
   events.splice(index, 1)
+  localStorage.setItem('savedEvents', JSON.stringify(events))
   showEvents()
 }
 
